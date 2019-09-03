@@ -1,46 +1,31 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 
-class Report extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            questions: [],
-            kmom: props.match.params.kmom
-        };
-    }
+const Report = ({ match }) => {
+  const kmom = match.params.kmom;
+  const [questions, setQuestions] = useState([]);
 
-  componentDidMount() {
-      let that = this;
-      fetch("https://me-api.jsramverk.me/reports/" + this.state.kmom)
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(result) {
-          that.setState({
-              questions: result.data
-          });
-      });
-  }
+  useEffect(() => {
+    fetch(`https://me-api.jsramverk.me/reports/${kmom}`)
+      .then(res => res.json())
+      .then(res => setQuestions(res.data));
+  });
 
-  render() {
-    const renderedQuestions = this.state.questions.map((question, index) => {
-        return (
-            <div className="question" key={index}>
-                <p><strong>{ question.question }</strong></p>
-                <p>{ question.answer }</p>
-            </div>
-        )
-    });
+  const QuestionsList = () =>
+    questions.map((question, index) => (
+      <div className="question" key={index}>
+        <p>
+          <strong>{question.question}</strong>
+        </p>
+        <p>{question.answer}</p>
+      </div>
+    ));
 
-    return (
-        <main>
-            <h2>{ this.state.kmom }</h2>
-            { renderedQuestions }
-        </main>
-
-
-    );
-  }
-}
+  return (
+    <main>
+      <h2>{kmom}</h2>
+      <QuestionsList />
+    </main>
+  );
+};
 
 export default Report;
