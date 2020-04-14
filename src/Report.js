@@ -5,7 +5,7 @@ const Report = ({ match }) => {
   const [questions, setQuestions] = useState([]);
 
   useEffect(() => {
-    fetch(`https://me-api.jsramverk.me/reports/${kmom}`)
+    fetch(`https://me-api.jsramverk.se/reports/${kmom}`)
       .then(res => res.json())
       .then(res => setQuestions(res.data));
   });

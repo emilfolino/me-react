@@ -4,7 +4,7 @@ const Me = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch('https://me-api.jsramverk.me')
+    fetch('https://me-api.jsramverk.se')
       .then(res => res.json())
       .then(res => setMessage(res.description));
   });
